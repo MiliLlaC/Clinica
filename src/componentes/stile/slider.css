@@ -1,0 +1,10 @@
+/* slider.css */
+.slide {
+  justify-content: center; /* Centrar la imagen horizontalmente */
+  align-items: center; /* Centrar la imagen verticalmente */
+}
+
+.slide img {
+  width: 100%;
+  height: 95vh; /* Mantener la relación de aspecto */
+}

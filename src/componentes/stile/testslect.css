@@ -1,0 +1,197 @@
+/*.test-selection-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+  }
+  
+  .test-selection-container h2 {
+    margin-bottom: 20px;
+  }
+  
+  .test-selection-container button {
+    width: 200px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #61dafb;
+    cursor: pointer;
+  }
+  
+  .test-selection-container button:hover {
+    background-color: #21a1f1;
+  }*/
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    flex-direction: column; /* Cambiado a columna para incluir el encabezado */
+    justify-content: center;
+    align-items: center;
+    /*height: 100vh;*/
+    margin: 0;
+}
+
+.headertest {
+    display: flex;                   /* Habilitar flexbox */  
+    flex-direction: column;         /* Alinear elementos en columna (imagen arriba, texto abajo) */  
+    align-items: center;            /* Centrar horizontalmente */  
+    justify-content: center;        /* Centrar verticalmente */  
+    /*text-align: center; /* Centrar el texto del encabezado */
+    margin-bottom: 30px; /* Espacio debajo del encabezado */
+    width: 100%;
+}
+
+.headertest .title {   
+    background-image: url('../../recursos/imagenes/test.jpg'); /* Ruta actualizada */  
+    background-size: cover; /* Ajusta la imagen de fondo para cubrir el área del elemento */  
+    background-position: center; /* Centra la imagen de fondo */  
+    width: 100%;  
+    height: 250px; /* Ajustar la altura de la imagen de fondo */  
+    display: flex; /* Activar flexbox */  
+    flex-direction: column; /* Colocar los elementos en una columna */  
+    justify-content: center; /* Centrar verticalmente */  
+    align-items: center; /* Centrar horizontalmente */  
+    text-align: center; /* Centrar el texto del encabezado */  
+    margin-bottom: 20px;
+}  
+
+.headertest h1 {  
+    font-size: 50px; /* Tamaño de fuente del título */  
+    color: #003366;/*#00bcd4;/*#003366; /* Color del texto del título */  
+    margin-bottom: 20px; /* Espacio debajo del título */   
+}  
+
+.headertest p {
+    font-size: 18px; /* Tamaño de fuente del párrafo */
+    color: #555; /* Color del texto del párrafo */
+    max-width: 800px; /* Ancho máximo del párrafo */
+    margin: 20px auto; /* Centrar el párrafo */
+    text-align: justify;
+}
+.headertest button {
+    /*background-color: #dc3545; /* Color rojo para el botón de cerrar sesión */
+    justify-content: center;
+    color: white; /* Texto blanco en el botón */
+    border: none; /* Sin borde */
+    padding: 5px 10px; /* Espaciado interno más pequeño */
+    /*border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cambiar el cursor al pasar sobre el botón */
+    transition: background-color 0.3s; /* Transición suave para el color de fondo */
+    border-radius: 15px;
+    background: #00bcd4;
+    width: 144px;
+    height: 40px;
+    font-size: 12px;
+    margin-bottom: 20px;
+
+}
+
+.headertest button:hover {
+    background-color: #004F7C; /* Color más oscuro al pasar el mouse */
+}
+.card-container {
+    display: flex;
+    gap: 50px; /* Espacio entre las tarjetas */
+    display: flex;                   /* Habilitar flexbox */  
+    flex-direction: row;         /* Alinear elementos en columna (imagen arriba, texto abajo) */  
+    align-items: center;            /* Centrar horizontalmente */  
+    justify-content: center;        /* Centrar verticalmente */  
+    background: white;
+}
+
+.card {
+    /*border: 1px solid #025DAE;
+    background: linear-gradient(90deg, rgba(3, 163, 232, 0.50) 0%, rgba(3, 163, 232, 0.40) 25%, rgba(129, 209, 243, 0.30) 50%, rgba(192, 232, 249, 0.20) 75%, rgba(255, 255, 255, 0.10) 100%), rgba(3, 163, 232, 0.24);
+    box-shadow: 0px 4px 50px 0px rgba(0, 0, 0, 0.25);
+    /*background: linear-gradient(135deg, #6dd5ed, #2193b0); /* Fondo degradado */
+    /*border-radius: 15px; /* Bordes redondeados */
+    /*padding: 20px;*/
+    width: 300px; /* Ancho fijo para las tarjetas */
+    height: 400px;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    text-align: center;
+   /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra */
+    transition: transform 0.3s; /* Transición suave */
+    display: flex;
+    flex-direction: column; 
+    justify-content: center;
+    align-items: center;
+    border-radius: 80px 0px 80px 0px;
+    border: 1px solid rgba(0, 0, 0, 0.25);
+    background: rgba(238, 238, 238, 0.01);
+    box-shadow: 25px 25px 20px 0px #D9D9D9;
+}
+
+.card:hover {
+    transform: scale(1.05); /* Efecto de aumento al pasar el mouse */
+}
+
+.foto{
+    width: 100%;
+    height: 50%; /* Tamaño de la imagen */
+    /*border-radius: 50%; /* Hacer la imagen de perfil circular */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.foto img {
+    margin-left: 5px ;
+    border-radius: 50%; /* Hacer la imagen de perfil circular */
+    width: 150px; /* Tamaño de la imagen de perfil */
+    height: 150px; /* Tamaño de la imagen de perfil */
+    margin-right: 10px; /* Espacio entre la imagen y el texto */
+    box-shadow: 3px 5px 4px 0px rgba(0, 0, 0, 0.20);
+}
+.card .contenido{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: end;
+    background:   #003366;/*#004F7C;/*#1F3A6D;/*#00A3E0;/*linear-gradient(180deg, rgba(0, 188, 212, 0.20) 0%, rgba(0, 188, 212, 0.30) 25%, rgba(0, 188, 212, 0.40) 50%, rgba(0, 188, 212, 0.80) 75%, #00BCD4 100%), rgba(3, 163, 232, 0.24);*/
+    width: 100%;
+    height: 50%;
+    border-radius: 0px 0px 80px 0px;
+
+}
+.card h2 {
+    font-size: 24px; /* Tamaño del título del test */
+    color: white;/*#333; /* Color del texto del título */
+    margin: 5px 10px 10px 10px; /* Espacio arriba y abajo de la descripción */
+}
+
+.card p {
+    font-size: 14px; /* Tamaño de la descripción */
+    color:whitesmoke;/* #333333;/*#555; /* Color del texto de la descripción */
+    margin: 5px 10px 20px 20px; /* Espacio arriba y abajo de la descripción */
+    /*max-width: 30px; /* Ancho máximo de la descripción */
+    text-align: justify; /* Justificar el texto */
+    max-height: 80px;
+    align-content: end;
+
+}
+
+.card button {
+    margin-bottom: 10px;
+    background-color: white; /* Color del botón */
+    color: black; /* Color del texto del botón */
+    border: none; /* Sin borde */
+    padding: 10px 15px; /* Espaciado interno */
+    border-radius: 5px; /* Bordes redondeados */
+    cursor: pointer; /* Cambiar cursor al pasar sobre el botón */
+    transition: background-color 0.3s; /* Transición suave para el color de fondo */
+    width: auto;
+    font-size: 12px;
+
+}
+
+.card button:hover {
+    background-color:#00bcd4; /* Color más oscuro al pasar el mouse */
+}
+
+  

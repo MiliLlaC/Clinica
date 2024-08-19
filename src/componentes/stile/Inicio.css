@@ -1,0 +1,67 @@
+/* stile/citasVista.css */
+.citas-vista-container {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .saludo {
+    background-color: #e5f7fb;
+    padding: 30px; /* Aumenta el padding para más espacio interno */
+    border-radius: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+  }
+
+  .saludo .inicioimag img{
+    width: 500px;
+    height: 100px;
+    object-fit: cover;
+    display: block;
+    margin-left: 50px;
+  }
+
+  .saludo .saludo-usuario{
+    margin-left: 20px;
+    align-items: center;
+  }
+  .saludo h1 {
+    font-size: 50px;
+    margin: 0;
+    color: #2559A6;
+  }
+  
+  .saludo p {
+    margin: 5px 0;
+    color: #555;
+  }
+  
+  .citas-vacio {
+    margin-top: 40px;
+  }
+  
+  .icono-citas img {
+    font-size: 60px;
+    color: #00A1F1;
+    margin-bottom: 20px;
+    width: 150px;
+    height: 150px;
+  }
+  
+  .btn-agendar-cita {
+    background-color: #2559A6;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 18px;
+    width: 200px;
+  }
+  
+  .btn-agendar-cita:hover {
+    background-color: #258AC9;
+  }
+  

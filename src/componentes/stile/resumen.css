@@ -1,0 +1,29 @@
+/* estilo/resumenCita.css */
+.resumen-cita-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .volver-btn {
+    margin-bottom: 20px;
+  }
+  
+  .datos-cita {
+    margin-bottom: 20px;
+  }
+  
+  .agendar-cita-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .agendar-cita-btn:hover {
+    background-color: #0056b3;
+  }
+  

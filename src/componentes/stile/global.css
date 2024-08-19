@@ -1,0 +1,253 @@
+
+/*.app.questions-screen{
+  background-color: #fff;
+  width: 800px;
+  height: min-content;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 10px 10px 42px 0px rgba(0, 0, 0, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.questions-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.lado-izquierdo {
+  margin-bottom: 20px;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.lado-derecho {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+}
+
+.numero-pregunta {
+  margin-bottom: 10px;
+  color: #00bcd4;
+  margin-bottom: 20px;
+
+}
+
+.pregunta-numero span {
+  font-size: 20px;
+}
+
+.titulo-pregunta {
+  font-size: 20px;
+  margin-bottom: 20px;
+  color:#003366; 
+
+}
+
+.tiempo-restante {
+  font-size: 16px;
+  color: #FF9800; 
+}
+
+.lado-derecho {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content:space-between;
+  width: 100%;
+}
+
+button {
+  background-color:#00bcd4; 
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 5px 0;
+  transition: background-color 0.3s;
+  width: 15%;
+}
+
+button:hover {
+  background-color:#003366; 
+}
+
+.terminado {
+  text-align: center;
+}
+
+.conteo-respuestas {
+  margin-top: 20px;
+  text-align: left;
+}
+
+.conteo-respuestas h3 {
+  margin-bottom: 10px;
+}
+
+.conteo-respuestas p {
+  margin: 5px 0;
+  font-size: 1em;
+}*/
+.app.questions-screen {
+  background-color: #fff;
+  width: 600px;
+  height: min-content;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 10px 10px 42px 0px rgba(0, 0, 0, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.questions-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.lado-izquierdo {
+  margin-bottom: 20px;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.terminado{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
+.terminado span {
+  font-size: 30px;
+  color: #003366;
+  margin-bottom: 20px;
+}
+.terminado button{
+  background-color: #00bcd4;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 5px 0;
+  transition: background-color 0.3s;
+  width: 80%;
+
+}
+.lado-derecho {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.numero-pregunta {
+  margin-bottom: 20px;
+  color: #00bcd4;
+}
+
+.titulo-pregunta {
+  font-size: 20px;
+  margin-bottom: 20px;
+  color: #003366;
+}
+
+.tiempo-restante {
+  font-size: 16px;
+  color: #FF9800;
+}
+
+.respuestasbutton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-left: 50px;
+}
+
+.botones-controles {
+  display: flex;
+  flex-direction: row;
+  align-items: end;
+  justify-content: center;
+  gap: 15px;
+}
+
+.botones-controles button {
+  width: 100%;
+  background-color: #00bcd4;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 5px 0;
+  transition: background-color 0.3s;
+}
+
+.respuestasbutton button {
+  background-color: #00bcd4;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 5px 0;
+  transition: background-color 0.3s;
+  width: 100%;
+}
+
+.respuestasbutton button:hover {
+  background-color: #003366;
+}
+.botones-controles button:hover {
+  background-color: #003366;
+}
+.terminado button:hover
+
+.terminado {
+  text-align: center;
+}
+
+.conteo-respuestas {
+  margin-top: 20px;
+  text-align: left;
+}
+
+.conteo-respuestas h3 {
+  margin-bottom: 10px;
+}
+
+.conteo-respuestas p {
+  margin: 5px 0;
+  font-size: 1em;
+}
