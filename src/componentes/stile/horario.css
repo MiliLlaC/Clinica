@@ -1,0 +1,118 @@
+.seleccionar-horario-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .volver-btn, .continuar-btn {
+    display: block;
+    margin-bottom: 20px;
+    background-color: #258AC9;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .volver-btn {
+    margin-top: -10px;
+    background-color: transparent;
+    color:black;
+    text-decoration: underline;
+    padding: 0;
+  }
+  
+  .volver-btn:hover, .continuar-btn:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  
+  .selector-fecha {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .selector-fecha input {
+    width: 200px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-right: 10px;
+    flex-grow: 1;
+  }
+  
+  .reset-fecha-btn {
+    width: 100px;
+    background-color: #ffb100;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .tipo-consulta {
+    display: flex;
+    margin-bottom: 20px;
+  }
+  
+  .btn-tipo {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    background-color: #f5f5f5;
+    color: #333;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .btn-tipo.active {
+    background-color: #00b2a9;
+    color: white;
+  }
+  
+  .horarios-disponibles {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    /*flex-wrap: wrap;*/
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .hora-btn {
+    padding: 10px 20px;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .hora-btn.selected {
+    background-color: #00b2a9;
+    color: white;
+  }
+  
+  .resumen-cita {
+    background-color: #ffffff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .resumen-cita h3 {
+    margin-bottom: 15px;
+  }
+  
+  .resumen-cita p {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #333;
+  }
+  
