@@ -18,7 +18,6 @@ const AgendarCita = ({ user }) => {
           {/* agregar otras opciones para otros pacientes */}
         </select>
         <button className="nuevo-paciente"><img src={iconplus} alt="plus" className="iconplus" />Agregar nuevo paciente</button>
-
         <div className="opciones-servicios">
           <div className="opcion-servicio">
           <button className="btn-servicio" onClick={() => navigate("/Dash/AgendarporMedico")}><img src={iconmedico} alt="medico" className="iconmedico" /> Psicólogo</button>
@@ -26,9 +25,9 @@ const AgendarCita = ({ user }) => {
           <div className="opcion-servicio">
             <button className="btn-servicio" onClick={() => navigate("/Dash/AgendarporServicio")}><img src={iconespecialidad} alt="especialista" className="iconmedico" />Servicio</button>
           </div>
-          <div className="opcion-servicio">
+          {/*<div className="opcion-servicio">
             <button className="btn-servicio">Laboratorio</button>
-          </div>
+          </div>*/}
         </div>
       </div>
     </div>

@@ -1,16 +1,31 @@
-// componentes/ResumenCita.js
+// ResumenCita.js
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import './stile/resumen.css';
 
 const ResumenCita = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { especialidadSeleccionada, sede, fecha, hora, medicoSeleccionado, seguro } = location.state || {};
+  const { especialidadSeleccionada, sede, fecha, hora, medicoSeleccionado, seguro, tipoConsulta } = location.state || {};
 
   const handleAgendarCita = () => {
-    console.log("Cita agendada");
-    navigate('/Dash/Confirmacion');
+    // Simular almacenamiento de la cita
+    const nuevaCita = {
+      fecha,
+      hora,
+      tipoConsulta,
+      especialidad: especialidadSeleccionada,
+      medico: medicoSeleccionado,
+      sede,
+      estado: 'Agendada'
+    };
+
+    // Guardar la cita en el localStorage (o envíala a un backend)
+    const citasPrevias = JSON.parse(localStorage.getItem('citas')) || [];
+    const citasActualizadas = [...citasPrevias, nuevaCita];
+    localStorage.setItem('citas', JSON.stringify(citasActualizadas));
+
+    // Navegar a la confirmación
+    navigate('/Dash/Inicio');
   };
 
   return (
@@ -23,10 +38,11 @@ const ResumenCita = () => {
         <p><strong>Fecha:</strong> {fecha || 'Por definir'}</p>
         <p><strong>Hora:</strong> {hora || 'Por definir'}</p>
         <p><strong>Sede:</strong> {sede || 'Por definir'}</p>
-        <p><strong>Asegurador:</strong> {seguro || 'Sin seguro'}</p>
+        <p><strong>Tipo de Consulta:</strong> {tipoConsulta === 'presencial' ? 'Presencial' : 'Teleconsulta'}</p>
+        {/*<p><strong>Asegurador:</strong> {seguro || 'Sin seguro'}</p>*/}
         <p><strong>Pago por consulta:</strong> S/ 300.00</p>
       </div>
-      <button className="agendar-cita-btn" onClick={handleAgendarCita}>Agendar cita</button>
+      <button className="btn-agendar-cita" onClick={handleAgendarCita}>Agendar cita</button>
     </div>
   );
 };

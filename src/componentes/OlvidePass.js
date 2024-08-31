@@ -4,17 +4,23 @@ import './stile/contrasena.css';
 const OlvidePass = () => {
   const [email, setEmail] = useState('');
   const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [step, setStep] = useState(1); // 1 para correo, 2 para nueva contraseña
+  const [error, setError] = useState('');
 
   const handleEmailSubmit = (event) => {
     event.preventDefault();
-    // el correo electrónico con el enlace de verificación.
+    // Enviar el correo electrónico con el enlace de verificación.
     console.log('Correo electrónico enviado a:', email);
     setStep(2); // Pasar a la siguiente etapa (establecer nueva contraseña)
   };
 
   const handlePasswordSubmit = (event) => {
     event.preventDefault();
+    if (newPassword !== confirmPassword) {
+      setError('Las contraseñas no coinciden');
+      return;
+    }
     // lógica para actualizar la contraseña en el servidor.
     console.log('Nueva contraseña establecida para:', email);
     alert('Tu contraseña ha sido restablecida con éxito.');
@@ -53,6 +59,18 @@ const OlvidePass = () => {
               required
             />
           </div>
+          <div className="input-group">
+            <label htmlFor="confirm-password">Confirmar contraseña</label>
+            <input
+              type="password"
+              id="confirm-password"
+              placeholder="Confirma tu nueva contraseña"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
+          </div>
+          {error && <p className="error-message">{error}</p>}
           <button type="submit" className="btn-enviar">Restablecer contraseña</button>
         </form>
       )}

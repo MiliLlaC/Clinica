@@ -7,15 +7,33 @@
   }
   
   .volver-btn {
-    margin-bottom: 20px;
+    width: 100px;
+    margin: auto;
+    background-color:#258AC9;
+    color: white;
+    text-decoration: underline;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .volver-btn:hover{
+    background-color:#2559A6;
+    color: white;
   }
   
+  .resumen-cita-container h2 {
+    font-size: 40px;
+    color: #2559A6;
+    margin-bottom: 30px;
+  }
   .datos-cita {
     margin-bottom: 20px;
   }
   
-  .agendar-cita-btn {
-    background-color: #007bff;
+  .btn-agendar-cita{
+    background-color: #2559A6;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -23,7 +41,7 @@
     cursor: pointer;
   }
   
-  .agendar-cita-btn:hover {
+  .agendar-cita button:hover {
     background-color: #0056b3;
   }
   

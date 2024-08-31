@@ -1,36 +1,100 @@
-/* estilos/misCitas.css */
 .mis-citas-container {
-    padding: 20px;
-    font-family: Arial, sans-serif;
-  }
-  
-  .no-citas {
-    text-align: center;
-    margin-top: 20px;
-  }
-  
-  .lista-citas {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .lista-citas li {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    margin: 10px 0;
-  }
-  
-  .mi-cita button {
-    background-color: #00bcd4;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  /*button:hover {
-    background-color: #0097a7;
-  }*/
-  
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+h2, h3 {
+  margin-bottom: 15px;
+}
+
+select {
+  margin-bottom: 20px;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  width: 100%; /* Full-width select for better appearance */
+  max-width: 300px; /* Optional max-width for the select */
+}
+
+p {
+  margin-bottom: 20px;
+  color: #555;
+}
+
+.tabla-citas {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #fff; /* Background color for the table */
+}
+
+.tabla-citas thead {
+  background-color: #2559A6; /* Light yellow background */
+  color: white;
+  text-align: left;
+}
+
+.tabla-citas th, .tabla-citas td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.tabla-citas th {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.tabla-citas tbody tr {
+  background-color: #fff;
+  transition: background-color 0.3s ease;
+}
+
+.tabla-citas tbody tr:hover {
+  background-color: #f9f9f9; /* Light gray background on hover */
+}
+
+.tabla-citas tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.eliminar-cita-btn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: #f44336; /* Red color */
+  font-size: 18px; /* Increase icon size */
+  padding: 5px;
+}
+
+.eliminar-cita-btn:hover {
+  color: #d32f2f;
+}
+
+.no-citas {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.no-citas h4 {
+  margin-bottom: 10px;
+}
+
+.no-citas button {
+  background-color: #2559A6;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 18px;
+  width: 200px;
+}
+
+.no-citas button:hover {
+  background-color: #258AC9;
+}

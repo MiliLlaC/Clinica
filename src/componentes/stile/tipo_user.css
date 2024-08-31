@@ -54,6 +54,12 @@
     display: flex; /* Utiliza flexbox para alinear la imagen y el texto */
     align-items: center; /* Alinea la imagen y el texto verticalmente */
     width: 150px;
+    background-color:#00bcd4;/* #A9AAAD;*/
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin: 5px 0;
+    transition: background-color 0.3s;
 }
 
 .button-icon {
@@ -62,19 +68,8 @@
     margin-right: 8px; /* Espacio entre la imagen y el texto */
 }
 
-button {
-    background-color:#00bcd4;/* #A9AAAD;*/
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 12px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 5px 0;
-    transition: background-color 0.3s;
-    width: 100%;
-}
 
-button:hover {
+
+.icon-button:hover {
     background-color: #2559A6;
 }

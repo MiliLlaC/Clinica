@@ -1,28 +1,36 @@
 import React from 'react';
 import './stile/agendarPorMedico.css';
+import psicologoimg from '../recursos/imagenes/psicologo.png'; // Imagen de inicio
+import buscarimg from '../recursos/imagenes/buscar.png'; // Imagen de inicio
+
 
 const AgendarPorMedico = () => {
   return (
     <div className="agendar-por-medico-container">
-      <a href="/Dash/AgendarCita" className="volver-link">&lt; Volver</a>
-      <h2>Agendar por médico</h2>
+      {/*<a href="/Dash/AgendarCita" className="volver-link">&lt; Volver</a>*/}
+      <button className="volver-btn" onClick={() => window.history.back()}>Volver</button>
+      <h2>Agendar por Psicólogo</h2>
       <div className="buscar-medico">
         <input
           type="text"
-          placeholder="Ingresa el nombre del médico"
+          placeholder="Ingresa el nombre del psicólogo"
           className="input-buscar-medico"
         />
         <button className="btn-buscar-medico">
-          <i className="fas fa-search"></i> {/* Icono de búsqueda */}
+          <img
+            src={buscarimg} 
+            alt="buscar"
+            className="buscar"
+          />
         </button>
       </div>
       <div className="medico-info">
         <img
-          src="ruta-al-icono-medico.png" 
-          alt="Médico"
-          className="icono-medico"
+          src={psicologoimg} 
+          alt="Psicologo"
+          className="icono-psico"
         />
-        <p>Aquí mostraremos a los médicos de tus últimas consultas en [Nombre de la Clínica]</p>
+        <p>Aquí mostraremos a los Psicólogos de tus últimas consultas</p>
       </div>
     </div>
   );

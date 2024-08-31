@@ -8,19 +8,37 @@ const MisCitas = () => {
   const navigate = useNavigate();
   
   useEffect(() => {
-    // hacer una llamada a tu API para obtener las citas del usuario
-    // Por ejemplo:
+    // Fetch appointments from your API
+    // For example:
     // fetch('/api/citas')
     //   .then(response => response.json())
     //   .then(data => setCitas(data))
-    
-    // Simulación de datos para ejemplo
-    const fetchedCitas = []; // Cambia esto por la respuesta de API
+
+    // Simulated data for example
+    const fetchedCitas = [
+      {
+        id: 1,
+        fecha: '2024-08-26',
+        hora: '10:00 AM',
+        tipo: 'Presencial',
+        especialidad: 'Psicología',
+        medico: 'Dr. Jorge Arturo Aguilar Segura',
+        sede: 'Delgado - Lima',
+        estado: 'Agendada',
+      },
+      // More appointments...
+    ];
     setCitas(fetchedCitas);
   }, []);
 
   const handleAgendarCita = () => {
-    navigate('/Dash/AgendarCita'); // Navega a la ruta AgendarCita dentro de Dash
+    navigate('/Dash/AgendarCita');
+  };
+
+  const handleEliminarCita = (id) => {
+    // Logic to delete the appointment (for example, making a DELETE request to the API)
+    const updatedCitas = citas.filter(cita => cita.id !== id);
+    setCitas(updatedCitas);
   };
 
   return (
@@ -29,7 +47,7 @@ const MisCitas = () => {
       <h3>Ver citas del paciente:</h3>
       <select>
         <option>Maria Milagros Llauce Cajusol</option>
-        {/* Agrega más pacientes si es necesario */}
+        {/* Add more patients if needed */}
       </select>
       <p>Solo se mostrarán las citas agendadas por ti</p>
 
@@ -40,16 +58,41 @@ const MisCitas = () => {
           <button className='mi-cita' onClick={handleAgendarCita}>Agendar una cita</button>
         </div>
       ) : (
-        <ul className="lista-citas">
-          {citas.map((cita, index) => (
-            <li key={index}>
-              <p><strong>Fecha:</strong> {cita.fecha}</p>
-              <p><strong>Hora:</strong> {cita.hora}</p>
-              <p><strong>Especialidad:</strong> {cita.especialidad}</p>
-              <p><strong>Médico:</strong> {cita.medico}</p>
-            </li>
-          ))}
-        </ul>
+        <table className="tabla-citas">
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Hora</th>
+              <th>Tipo</th>
+              <th>Especialidad</th>
+              <th>Médico</th>
+              <th>Sede</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {citas.map((cita, index) => (
+              <tr key={index}>
+                <td>{cita.fecha}</td>
+                <td>{cita.hora}</td>
+                <td>{cita.tipo}</td>
+                <td>{cita.especialidad}</td>
+                <td>{cita.medico}</td>
+                <td>{cita.sede}</td>
+                <td>{cita.estado}</td>
+                <td>
+                  <button 
+                    className="eliminar-cita-btn" 
+                    onClick={() => handleEliminarCita(cita.id)}
+                  >
+                    Eliminar
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       )}
     </div>
   );

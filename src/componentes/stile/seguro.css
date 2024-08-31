@@ -11,7 +11,7 @@
     width: 100px;
     margin: auto;
     background-color:#258AC9;
-    color: black;
+    color: white;
     text-decoration: underline;
     border: none;
     padding: 5px;
@@ -20,8 +20,8 @@
   }
 
   .volver-btn:hover{
-    background-color:whitesmoke;
-    color: black;
+    background-color:#2559A6;
+    color: white;
   }
   
   .alerta-seguro {
@@ -58,7 +58,7 @@
   
   .continuar-btn {
     display: block;
-    background-color: #00b2a9;
+    background-color: #2559A6;
     color: white;
     border: none;
     border-radius: 4px;
@@ -69,7 +69,7 @@
   }
   
   .continuar-btn:disabled {
-    background-color: #ddd;
+    background-color: #2559A6;
     cursor: not-allowed;
   }
   
