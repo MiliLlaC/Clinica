@@ -1,0 +1,58 @@
+.agendar-especialidad-container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+  }
+  
+  .volver-btn {
+    background: #258AC9;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  
+  h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .search-container {
+    margin-bottom: 20px;
+  }
+  
+  .search-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .especialidades-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  
+  .especialidad-item {
+    width: 48%;
+    margin-bottom: 15px;
+  }
+  
+  .especialidad-btn {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #2559A6;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: left;
+  }
+  
+  .especialidad-btn:hover {
+    background-color: #e0e0e0;
+    color: black;
+  }
