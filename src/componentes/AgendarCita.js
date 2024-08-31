@@ -30,8 +30,7 @@ const AgendarCita = ({ user }) => {
 
     fetchPatients();
   }, []);
-
-
+//asasas
   return (
     <div className="agendar-cita-container">
       <h2>Agenda tu cita</h2>
