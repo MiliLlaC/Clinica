@@ -1,106 +1,191 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import './stile/configurarCita.css';
-import iconreset from '../recursos/imagenes/reset.png';  // Icono agregar 
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { useLocation, useNavigate } from "react-router-dom";
+import "./stile/configurarCita.css";
+import iconreset from "../recursos/imagenes/reset.png"; // Icono agregar
 
 const ConfigurarCita = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { especialidadSeleccionada } = location.state || {};
+  const { servicioSeleccionado } = location.state || {};
+  const sedes = servicioSeleccionado ? servicioSeleccionado.sedes : [];
+  //Sede
+  const [sede, setSede] = useState("");
 
-  const [sede, setSede] = useState('');
-  const [fecha, setFecha] = useState('');
-  const [medicoSeleccionado, setMedicoSeleccionado] = useState('');
+  //Modalidad
+  const [modality, setModality] = useState("");
+  const [tipoConsulta, setTipoConsulta] = useState("");
+
+  //Medico (optimizar aqui)
+  const [medicoSeleccionado, setMedicoSeleccionado] = useState("");
+  const [medicoName, setMedicoName] = useState("");
   const [medicos, setMedicos] = useState([]);
+
+  //Fecha
+  const [fecha, setFecha] = useState("");
+
+  //Horarios
   const [horarios, setHorarios] = useState([]);
-  const [horarioSeleccionado, setHorarioSeleccionado] = useState('');
-  const [tipoConsulta, setTipoConsulta] = useState('presencial'); // Estado añadido
+  const [start_time, setStartTime] = useState("");
+  const [end_time, setEndTime] = useState("");
+  
+  const today = new Date().toISOString().split("T")[0];
+  
 
-  const today = new Date().toISOString().split('T')[0];
-
+  // OBTENGO LOS HORARIOS DISPONIBLES (SELECCIONANDO MEDICO Y FECHA)
   useEffect(() => {
-    if (sede && fecha) {
-      const medicosDisponibles = [
-        { id: 1, nombre: 'Dr. Jorge Arturo Aguilar Segura' },
-        { id: 2, nombre: 'Dra. Ana María Flores García' },
-        // Más médicos...
-      ];
-      setMedicos(medicosDisponibles);
-    } else {
-      setMedicos([]);
-    }
-  }, [sede, fecha]);
-
-  useEffect(() => {
-    if (medicoSeleccionado) {
-      const horariosDisponibles = [
-        { id: 1, horario: '9:00 AM', tipo: 'presencial' },
-        { id: 2, horario: '10:00 AM', tipo: 'presencial' },
-        { id: 3, horario: '11:00 AM', tipo: 'presencial' },
-        { id: 4, horario: '12:00 PM', tipo: 'presencial' },
-        { id: 5, horario: '1:00 PM', tipo: 'presencial' },
-        { id: 6, horario: '9:00 AM', tipo: 'teleconsulta' },
-        { id: 7, horario: '10:00 AM', tipo: 'teleconsulta' },
-        // Más horarios...
-      ];
-      setHorarios(horariosDisponibles);
+    if (medicoSeleccionado && fecha) {
+      axios
+        .post("http://127.0.0.1:8000/scheduling/available-time-slots/", {
+          employee: medicoSeleccionado,
+          date: fecha,
+        })
+        .then((response) => {
+          setHorarios(response.data);
+        })
+        .catch((error) => {
+          console.error("Error al obtener los horarios:", error);
+          setHorarios([]);
+        });
     } else {
       setHorarios([]);
     }
-  }, [medicoSeleccionado]);
+  }, [medicoSeleccionado, fecha]);
+
+  // OBTENGO LOS MEDICOS (SELECCIONANDO LA SEDE)
+  useEffect(() => {
+    if (sede) {
+      axios
+        .get(`http://127.0.0.1:8000/scheduling/sedes/${sede.id}`)
+        .then((response) => {
+          const empleados = response.data.employees;
+          const medicosDisponibles = empleados.map((emp) => ({
+            id: emp.id,
+            name: `${emp.first_name} ${emp.last_name}`,
+          }));
+          setMedicos(medicosDisponibles);
+        })
+        .catch((error) => {
+          console.error("Error al obtener los empleados:", error);
+          setMedicos([]);
+        });
+    } else {
+      setMedicos([]);
+    }
+  }, [sede, sedes]);
 
   const handleSedeChange = (e) => {
-    setSede(e.target.value);
-    setMedicoSeleccionado('');
-    setHorarioSeleccionado('');
+    const sedeId = parseInt(e.target.value);
+    const selectedSede = sedes.find((sede) => sede.id === sedeId);
+    setSede(selectedSede);
+    if (selectedSede) {
+      setMedicoSeleccionado("");
+      setStartTime("");
+      setEndTime("");
+      // Determinar la modalidad permitida basado en la sede y el servicio
+      if (selectedSede.modality === "A") {
+        setTipoConsulta("P");
+        setModality(
+          servicioSeleccionado.modality === "A"
+            ? "A"
+            : servicioSeleccionado.modality === "P"
+            ? "P"
+            : "V"
+        );
+      } else {
+        setModality(selectedSede.modality);
+        setTipoConsulta(selectedSede.modality);
+      }
+    }
   };
 
   const handleFechaChange = (e) => {
     setFecha(e.target.value);
-    setMedicoSeleccionado('');
-    setHorarioSeleccionado('');
+    setStartTime("");
+    setEndTime("");
   };
 
   const handleMedicoChange = (e) => {
-    setMedicoSeleccionado(e.target.value);
-    setHorarioSeleccionado('');
+    const medicoId = parseInt(e.target.value, 10);
+    const selectedMedico = medicos.find((medico) => medico.id === medicoId);
+    if (selectedMedico) {
+      setMedicoSeleccionado(selectedMedico.id);
+      setMedicoName(selectedMedico.name);
+      setStartTime("");
+      setEndTime("");
+    }
   };
 
-  const handleHorarioChange = (horario) => {
-    setHorarioSeleccionado(horario);
+  const handleHorarioChange = (start_time, end_time) => {
+    setStartTime(start_time);
+    setEndTime(end_time)
   };
 
   const handleContinuarClick = () => {
-    navigate('/Dash/Resumen', {
+    console.log(servicioSeleccionado);
+    console.log(sede);
+    navigate("/Dash/Resumen", {
       state: {
-        especialidadSeleccionada,
-        sede,
+        servicioSeleccionado,
+        sede: sede,
         fecha,
-        hora: horarioSeleccionado,  // Asigna el horario seleccionado
-        medicoSeleccionado,
+        start_time,
+        end_time,
+        medico : {medicoSeleccionado, medicoName},
         tipoConsulta,
-        seguro: 'Sin seguro' // Puedes cambiar este valor según la lógica de tu aplicación
-      }
+      },
     });
   };
 
-  const horariosFiltrados = horarios.filter(horario => horario.tipo === tipoConsulta);
-
   const formatDate = (dateString) => {
-    const date = new Date(dateString + 'T00:00:00'); // Concatenar la hora para evitar problemas de zona horaria
-    return date.toLocaleDateString('es-ES', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
+    const date = new Date(dateString + "T00:00:00");
+    return date.toLocaleDateString("es-ES", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
     });
   };
 
   return (
     <div className="configurar-cita-container">
       <div className="configurar-cita-form">
-       <button className="volver-btn" onClick={() => window.history.back()}>Volver</button>
+        <button className="volver-btn" onClick={() => window.history.back()}>
+          Volver
+        </button>
         <h2>Configura tu cita</h2>
+
+        <label htmlFor="sede">Sede</label>
+        <select id="sede" value={sede.id} onChange={handleSedeChange} className="select-sede">
+          <option value="">Selecciona una sede</option>
+          {sedes.map((sede) => (
+            <option key={sede.id} value={sede.id}>
+              {sede.name}
+            </option>
+          ))}
+        </select>
+
+        <label htmlFor="medico">Psicólogo</label>
+        <div className="medico-info">
+          {medicos.length > 0 ? (
+            <div className="medicos-list">
+              {medicos.map((medico) => (
+                <label key={medico.id} className="medico-item">
+                  <input
+                    type="radio"
+                    name="medico"
+                    value={medico.id}
+                    checked={medicoSeleccionado === medico.id}
+                    onChange={handleMedicoChange}
+                  />
+                  <span>{medico.name}</span>
+                </label>
+              ))}
+            </div>
+          ) : (
+            <p>Seleccione la sede para ver los médicos disponibles.</p>
+          )}
+        </div>
 
         <div className="filtro-fecha">
           <label htmlFor="fecha">Seleccione una fecha</label>
@@ -113,69 +198,48 @@ const ConfigurarCita = () => {
               onChange={handleFechaChange}
               className="input-fecha"
             />
-            <button className="reset-fecha-cita" onClick={() => setFecha(today)}><img src={iconreset} alt="plus" className="iconreset" /></button>
+            <button
+              className="reset-fecha-cita"
+              onClick={() => setFecha(today)}
+            >
+              <img src={iconreset} alt="plus" className="iconreset" />
+            </button>
           </div>
         </div>
 
-        <label htmlFor="sede">Sede</label>
-        <select id="sede" value={sede} onChange={handleSedeChange} className="select-sede">
-          <option value="">Selecciona una sede</option>
-          <option value="Chiclayo">Chiclayo</option>
-          <option value="Piura">Piura</option>
-          <option value="Trujillo">Trujillo</option>
-          <option value="Lima">Lima</option>
-          {/* Agrega más opciones de sede */}
-        </select>
-
-        <label htmlFor="medico">Psicólogo</label>
-        <div className="medico-info">
-          {medicos.length > 0 ? (
-            <div className="medicos-list">
-              {medicos.map((medico) => (
-                <label key={medico.id} className="medico-item">
-                  <input
-                    type="radio"
-                    name="medico"
-                    value={medico.nombre}
-                    checked={medicoSeleccionado === medico.nombre}
-                    onChange={handleMedicoChange}
-                  />
-                  <span>{medico.nombre}</span>
-                </label>
-              ))}
-            </div>
-          ) : (
-            <p>Seleccione sede y fecha para ver los médicos disponibles.</p>
-          )}
-        </div>
-
-        {medicoSeleccionado && horariosFiltrados.length > 0 && (
+        {medicoSeleccionado && horarios.length > 0 && (
           <>
-            <div className="tipo-consulta-tabs">
+            {["A", "P"].includes(modality) && (
               <button
-                className={`tab-btn ${tipoConsulta === 'presencial' ? 'active' : ''}`}
-                onClick={() => setTipoConsulta('presencial')}
+                className={`tab-btn ${tipoConsulta === "P" ? "active" : ""}`}
+                onClick={() => setTipoConsulta("P")}
               >
                 Presencial
               </button>
+            )}
+            {["A", "V"].includes(modality) && (
               <button
-                className={`tab-btn ${tipoConsulta === 'teleconsulta' ? 'active' : ''}`}
-                onClick={() => setTipoConsulta('teleconsulta')}
+                className={`tab-btn ${tipoConsulta === "V" ? "active" : ""}`}
+                onClick={() => setTipoConsulta("V")}
               >
                 Teleconsulta
               </button>
-            </div>
+            )}
 
             <div className="horarios-list">
               <p>{formatDate(fecha)}</p>
               <div className="horarios-container">
-                {horariosFiltrados.map((horario) => (
+                {horarios.map((horario) => (
                   <button
                     key={horario.id}
-                    className={`hora-btn ${horarioSeleccionado === horario.horario ? 'selected' : ''}`}
-                    onClick={() => handleHorarioChange(horario.horario)}
+                    className={`hora-btn ${
+                      start_time === horario.start_time
+                        ? "selected"
+                        : ""
+                    }`}
+                    onClick={() => handleHorarioChange(horario.start_time, horario.end_time)}
                   >
-                    {horario.horario}
+                    {`${horario.start_time} - ${horario.end_time}`}
                   </button>
                 ))}
               </div>
@@ -185,7 +249,9 @@ const ConfigurarCita = () => {
 
         <button
           className="continuar-btn"
-          disabled={!sede || !fecha || !medicoSeleccionado || !horarioSeleccionado}
+          disabled={
+            !sede || !fecha || !medicoSeleccionado || !start_time || !end_time
+          }
           onClick={handleContinuarClick}
         >
           Continuar
@@ -194,12 +260,26 @@ const ConfigurarCita = () => {
 
       <div className="resumen-cita">
         <h3>Resumen de tu cita</h3>
-        <p><strong>Servicio:</strong> {especialidadSeleccionada || 'Por definir'}</p>
-        <p><strong>Psicólogo:</strong> {medicoSeleccionado || 'Por definir'}</p>
-        <p><strong>Sede:</strong> {sede || 'Por definir'}</p>
-        <p><strong>Fecha:</strong> {fecha ? formatDate(fecha) : 'Por definir'}</p>
-        <p><strong>Hora:</strong> {horarioSeleccionado || 'Por definir'}</p>
-        <p><strong>Tipo de Consulta:</strong> {tipoConsulta === 'presencial' ? 'Presencial' : 'Teleconsulta'}</p>
+        <p>
+          <strong>Servicio:</strong>{" "}
+          {servicioSeleccionado.reason || "---"}
+        </p>
+        <p>
+          <strong>Psicólogo:</strong> {medicoName || "---"}
+        </p>
+        <p>
+          <strong>Sede:</strong> {sede.name || "---"}
+        </p>
+        <p>
+          <strong>Fecha:</strong> {fecha ? formatDate(fecha) : "---"}
+        </p>
+        <p>
+          <strong>Hora:</strong> {start_time && end_time ? `${start_time} - ${end_time}` : "---"}
+        </p>
+        <p>
+          <strong>Tipo de Consulta:</strong>{" "}
+          {tipoConsulta === 'P' ? 'Presencial' : tipoConsulta === 'V' ? 'Teleconsulta': '---'}
+        </p>
       </div>
     </div>
   );

@@ -27,6 +27,7 @@ import Resumen from './componentes/Resumen';
 import './componentes/stile/global.css';
 import './componentes/stile/App.css';
 import './componentes/stile/agendarCita.css';
+import AgendarPorEspecialidad from './componentes/AgendarporEspecialidad';
 
 
 const rootElement = document.getElementById('root');

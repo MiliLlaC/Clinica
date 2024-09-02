@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useLocation, useNavigate, Outlet } from 'react-router-dom';
+import { Link, useNavigate, Outlet } from 'react-router-dom';
 import './stile/dashboard.css';
 import logo from '../recursos/imagenes/Logo_clin.jpg';
 import iconhome from '../recursos/imagenes/home.png';
@@ -17,11 +17,13 @@ const Dashboard = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
-  const location = useLocation();
-  const user = location.state?.user || 'Paciente';
+  const user = localStorage.getItem("user_name");
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    localStorage.removeItem('user_id');
+    localStorage.removeItem('user_name');
     navigate('/Login');
   };
 

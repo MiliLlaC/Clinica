@@ -49,7 +49,7 @@ const Login = () => {
             state: { user: "Nombre del Personal" },
           });
         } else {
-          navigate("/Dash/Inicio", { state: { user: name } });
+          navigate("/Dash/Inicio");
         }
       } else {
         // Si success es false, manejar el error basado en el mensaje o en los errores

@@ -57,10 +57,7 @@ const AgendarCita = ({ user }) => {
             <button className="btn-servicio" onClick={() => navigate("/Dash/AgendarporMedico")}><img src={iconmedico} alt="medico" className="iconmedico" /> Psicólogo</button>
           </div>
           <div className="opcion-servicio">
-            <button className="btn-servicio" onClick={() => navigate("/Dash/AgendarporEspecialidad")}><img src={iconespecialidad} alt="especialista" className="iconmedico" />Especialidad</button>
-          </div>
-          <div className="opcion-servicio">
-            <button className="btn-servicio">Laboratorio</button>
+            <button className="btn-servicio" onClick={() => navigate("/Dash/AgendarporServicio")}><img src={iconespecialidad} alt="especialista" className="iconmedico" />Servicio</button>
           </div>
         </div>
       </div>
