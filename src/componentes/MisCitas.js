@@ -1,54 +1,95 @@
-// componentes/MisCitas.js
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './stile/miCita.css';
 
 const MisCitas = () => {
   const [citas, setCitas] = useState([]);
+  const [mainPatient, setMainPatient] = useState(null); // Estado para el paciente principal y dependientes
+  const [selectedPatient, setSelectedPatient] = useState(null); // Estado para el paciente seleccionado
   const navigate = useNavigate();
   
   useEffect(() => {
-    // Fetch appointments from your API
-    // For example:
-    // fetch('/api/citas')
-    //   .then(response => response.json())
-    //   .then(data => setCitas(data))
+    // Función para obtener el paciente principal y sus dependientes
+    const fetchPatients = async () => {
+      const token = localStorage.getItem('access_token'); // Obtener el token del localStorage
+      const userId = localStorage.getItem('user_id'); // Obtener el ID del usuario del localStorage
 
-    // Simulated data for example
-    const fetchedCitas = [
-      {
-        id: 1,
-        fecha: '2024-08-26',
-        hora: '10:00 AM',
-        tipo: 'Presencial',
-        especialidad: 'Psicología',
-        medico: 'Dr. Jorge Arturo Aguilar Segura',
-        sede: 'Delgado - Lima',
-        estado: 'Agendada',
-      },
-      // More appointments...
-    ];
-    setCitas(fetchedCitas);
+      try {
+        const response = await axios.get(`http://127.0.0.1:8000/api/patients/${userId}/`, {
+          headers: {
+            Authorization: `Bearer ${token}` // Incluir el token en la cabecera de autorización
+          }
+        });
+        setMainPatient(response.data); // Almacenar el paciente principal y dependientes en el estado
+        setSelectedPatient(response.data.id); // Establecer el paciente principal como seleccionado
+      } catch (error) {
+        console.error('Error al obtener los pacientes', error);
+      }
+    };
+
+    fetchPatients();
   }, []);
+
+  useEffect(() => {
+    // Función para obtener las citas del paciente seleccionado
+    const fetchCitas = async () => {
+      if (!selectedPatient) return; // No hacer la solicitud si no hay paciente seleccionado
+
+      const token = localStorage.getItem('access_token');
+      try {
+        const response = await axios.get(`http://127.0.0.1:8000/api/patients/${selectedPatient}/appointments/`, {
+          headers: {
+            Authorization: `Bearer ${token}` // Incluir el token en la cabecera de autorización
+          },
+        });
+        setCitas(response.data); // Actualizar el estado con las citas del paciente
+      } catch (error) {
+        console.error('Error al obtener las citas:', error);
+      }
+    };
+
+    fetchCitas();
+  }, [selectedPatient]); // Ejecutar cuando cambie el paciente seleccionado
 
   const handleAgendarCita = () => {
     navigate('/Dash/AgendarCita');
   };
 
   const handleEliminarCita = (id) => {
-    // Logic to delete the appointment (for example, making a DELETE request to the API)
+    // Petición DELETE para cancelar la cita si es necesario
     const updatedCitas = citas.filter(cita => cita.id !== id);
     setCitas(updatedCitas);
+  };
+
+  const handlePatientChange = (e) => {
+    setSelectedPatient(e.target.value); // Cambiar el paciente seleccionado
   };
 
   return (
     <div className="mis-citas-container">
       <h2>Próximas citas</h2>
       <h3>Ver citas del paciente:</h3>
-      <select>
-        <option>Maria Milagros Llauce Cajusol</option>
-        {/* Add more patients if needed */}
+
+      {/* Selector para el paciente principal y sus dependientes */}
+      <select id="paciente" className="paciente-select" onChange={handlePatientChange} value={selectedPatient}>
+        {mainPatient && (
+          <>
+            {/* Opción para el paciente principal */}
+            <option className='mas-pacientes' value={mainPatient.id}>
+              {mainPatient.first_name} {mainPatient.last_name}
+            </option>
+            
+            {/* Opciones para los dependientes del paciente principal */}
+            {mainPatient.dependents && mainPatient.dependents.map(dependent => (
+              <option key={dependent.id} value={dependent.id}>
+                {dependent.first_name} {dependent.last_name}
+              </option>
+            ))}
+          </>
+        )}
       </select>
+
       <p>Solo se mostrarán las citas agendadas por ti</p>
 
       {citas.length === 0 ? (
@@ -62,31 +103,27 @@ const MisCitas = () => {
           <thead>
             <tr>
               <th>Fecha</th>
-              <th>Hora</th>
+              <th>Hora de inicio</th>
+              <th>Hora de fin</th>
               <th>Tipo</th>
-              <th>Especialidad</th>
-              <th>Médico</th>
-              <th>Sede</th>
               <th>Estado</th>
               <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
-            {citas.map((cita, index) => (
-              <tr key={index}>
-                <td>{cita.fecha}</td>
-                <td>{cita.hora}</td>
-                <td>{cita.tipo}</td>
-                <td>{cita.especialidad}</td>
-                <td>{cita.medico}</td>
-                <td>{cita.sede}</td>
-                <td>{cita.estado}</td>
+            {citas.map((cita) => (
+              <tr key={cita.id}>
+                <td>{cita.date}</td>
+                <td>{cita.start_time}</td>
+                <td>{cita.end_time}</td>
+                <td>{cita.modality === 'P' ? 'Presencial' : 'Virtual'}</td>
+                <td>{cita.status}</td>
                 <td>
                   <button 
                     className="eliminar-cita-btn" 
                     onClick={() => handleEliminarCita(cita.id)}
                   >
-                    Eliminar
+                    Ver Detalles
                   </button>
                 </td>
               </tr>

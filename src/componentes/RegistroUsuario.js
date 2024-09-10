@@ -1,73 +1,106 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './stile/registro.css';
 
 const Register = () => {
   const [step, setStep] = useState(1);
-  const [documentType, setDocumentType] = useState('');
   const [documentNumber, setDocumentNumber] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [secondLastName, setSecondLastName] = useState('');
   const [birthDate, setBirthDate] = useState('');
-  const [birthPlace, setBirthPlace] = useState('');
+  const [birthPlace, setBirthPlace] = useState(''); // Cambiado a seleccionar por ID
   const [gender, setGender] = useState('');
   const [workCenter, setWorkCenter] = useState('');
   const [occupation, setOccupation] = useState('');
-  const [maritalStatus, setMaritalStatus] = useState('');
   const [religion, setReligion] = useState('');
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [workCenters, setWorkCenters] = useState([]);
+  const [locations, setLocations] = useState([]); // Almacena las locations
 
   const navigate = useNavigate();
 
-  // Función para calcular la edad
-  const calculateAge = (birthDate) => {
-    const today = new Date();
-    const birthDateObj = new Date(birthDate);
-    let age = today.getFullYear() - birthDateObj.getFullYear();
-    const monthDifference = today.getMonth() - birthDateObj.getMonth();
-
-    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDateObj.getDate())) {
-      age--;
-    }
-
-    return age;
-  };
-
-  // Función para generar el nombre de usuario
+  // Función para obtener los centros de labores
   useEffect(() => {
-    if (firstName && lastName && secondLastName) {
-      const generatedUsername = `${firstName.toLowerCase()}`;
-      setUsername(generatedUsername);
-    }
-  }, [firstName]);
+    const fetchWorkCenters = async () => {
+      try {
+        const response = await axios.get('http://127.0.0.1:8000/api/companys/');
+        setWorkCenters(response.data);
+      } catch (error) {
+        console.error('Error al obtener los centros de trabajo:', error);
+      }
+    };
 
-  const handleRegister = (e) => {
-    e.preventDefault();
-    const age = calculateAge(birthDate);
-    if (age < 18) {
-      alert('Debes ser mayor de 18 años para registrarte.');
-    } else {
-      setStep(2);
-    }
-  };
+    fetchWorkCenters();
+  }, []);
 
-  const handleVerify = (e) => {
-    e.preventDefault();
-    setStep(3);
-  };
+  // Función para obtener las locations
+  useEffect(() => {
+    const fetchLocations = async () => {
+      try {
+        const response = await axios.get('http://127.0.0.1:8000/api/locations/');
+        setLocations(response.data);
+      } catch (error) {
+        console.error('Error al obtener las locations:', error);
+      }
+    };
 
-  const handleContact = (e) => {
+    fetchLocations();
+  }, []);
+
+  // Función para registrar el cliente
+  const handleRegisterClient = async (e) => {
     e.preventDefault();
+
     if (password !== confirmPassword) {
       alert('Las contraseñas no coinciden');
-    } else {
-      // Aquí iría la lógica para registrar al usuario y navegar al dashboard
-      navigate('/Dash', { state: { user: username } });
+      return;
+    }
+
+    const clientData = {
+      username: username,
+      password: password,
+      email: email,
+      patient: {
+        dni: documentNumber,
+        first_name: firstName,
+        last_name: lastName,
+        gender: gender,
+        birth_date: birthDate,
+        address: "789 Oak St", // Agregar un input
+        phone: phoneNumber,
+        company: workCenter,
+        location: birthPlace,
+        language: "Spanish", // Agregar un input
+        occupation: occupation,
+        religion: religion,
+        education_level: "Bachelor's", // Agregar un input
+        area: "Architecture", // Agregar un input
+        email: email,
+      },
+    };
+
+    try {
+      const response = await axios.post('http://127.0.0.1:8000/api/register/client', clientData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (response.status === 201) {
+        console.log(response);
+        localStorage.setItem("access_token", response.data.data.access);
+        localStorage.setItem("refresh_token", response.data.data.refresh);
+        localStorage.setItem("user_name", response.data.data.user_name);
+        localStorage.setItem("user_id", response.data.data.user_id);
+        navigate('/Dash/Inicio', { state: { user: username } });
+      }
+    } catch (error) {
+      console.error('Error al registrar al cliente:', error);
+      alert('Hubo un error al registrar el cliente');
     }
   };
 
@@ -80,17 +113,9 @@ const Register = () => {
         <div className="register-right">
           <a href="/Login" className="back-link">Volver</a>
           <h2>Ingresa tus datos</h2>
-          <form onSubmit={handleRegister}>
+          <form onSubmit={(e) => { e.preventDefault(); setStep(2); }}>
             <label>
-              Tipo de documento
-              <select value={documentType} onChange={(e) => setDocumentType(e.target.value)} required>
-                <option value="">Selecciona tu tipo de documento</option>
-                <option value="DNI">DNI</option>
-                <option value="Pasaporte">Pasaporte</option>
-              </select>
-            </label>
-            <label>
-              Nº de documento
+              Nº de DNI
               <input
                 type="text"
                 value={documentNumber}
@@ -110,23 +135,13 @@ const Register = () => {
               />
             </label>
             <label>
-              Apellido paterno
+              Apellidos
               <input
                 type="text"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
                 required
                 placeholder="Ej: Pérez"
-              />
-            </label>
-            <label>
-              Apellido materno
-              <input
-                type="text"
-                value={secondLastName}
-                onChange={(e) => setSecondLastName(e.target.value)}
-                required
-                placeholder="Ej: Gómez"
               />
             </label>
             <label>
@@ -140,13 +155,14 @@ const Register = () => {
             </label>
             <label>
               Lugar de nacimiento
-              <input
-                type="text"
-                value={birthPlace}
-                onChange={(e) => setBirthPlace(e.target.value)}
-                required
-                placeholder="Ej: Lima, Perú"
-              />
+              <select value={birthPlace} onChange={(e) => setBirthPlace(e.target.value)} required>
+                <option value="">Selecciona tu lugar de nacimiento</option>
+                {locations.map(location => (
+                  <option key={location.id} value={location.id}>
+                    {`${location.department}, ${location.province}, ${location.district}`}
+                  </option>
+                ))}
+              </select>
             </label>
             <button type="submit" className="submit-button">Continuar</button>
           </form>
@@ -160,25 +176,26 @@ const Register = () => {
             <div className="step">3</div>
           </div>
           <h2>Ingresa tus datos</h2>
-          <form onSubmit={handleVerify}>
+          <form onSubmit={(e) => { e.preventDefault(); setStep(3); }}>
             <label>
               Sexo
               <select value={gender} onChange={(e) => setGender(e.target.value)} required>
                 <option value="">Selecciona tu sexo</option>
-                <option value="Femenino">Femenino</option>
-                <option value="Masculino">Masculino</option>
-                <option value="Otro">Otro</option>
+                <option value="F">Femenino</option>
+                <option value="M">Masculino</option>
+                <option value="O">Otro</option>
               </select>
             </label>
             <label>
               Centro de labores
-              <input
-                type="text"
-                value={workCenter}
-                onChange={(e) => setWorkCenter(e.target.value)}
-                required
-                placeholder="Ej: Nombre del centro"
-              />
+              <select value={workCenter} onChange={(e) => setWorkCenter(e.target.value)} required>
+                <option value="">Selecciona tu centro de labores</option>
+                {workCenters.map(center => (
+                  <option key={center.id} value={center.id}>
+                    {center.name}
+                  </option>
+                ))}
+              </select>
             </label>
             <label>
               Ocupación
@@ -189,16 +206,6 @@ const Register = () => {
                 required
                 placeholder="Ej: Ingeniero"
               />
-            </label>
-            <label>
-              Estado civil
-              <select value={maritalStatus} onChange={(e) => setMaritalStatus(e.target.value)} required>
-                <option value="">Selecciona tu estado civil</option>
-                <option value="Soltero">Soltero</option>
-                <option value="Casado">Casado</option>
-                <option value="Divorciado">Divorciado</option>
-                <option value="Viudo">Viudo</option>
-              </select>
             </label>
             <label>
               Religión
@@ -222,7 +229,7 @@ const Register = () => {
             <div className="step completed">3</div>
           </div>
           <h2>Ingresa tus datos</h2>
-          <form onSubmit={handleContact}>
+          <form onSubmit={handleRegisterClient}>
             <label>
               Correo electrónico
               <input
@@ -248,7 +255,9 @@ const Register = () => {
               <input
                 type="text"
                 value={username}
-                disabled
+                onChange={(e) => setUsername(e.target.value)}
+                required
+                placeholder="Nombre de usuario"
               />
             </label>
             <label>
