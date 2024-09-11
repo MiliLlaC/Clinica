@@ -1,39 +1,44 @@
 // componentes/AgendarPorEspecialidad.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import './stile/agendarPorServicio.css'; 
 
 const AgendarPorServicio = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [servicios, setServicios] = useState([]);
   const navigate = useNavigate(); // Hook para redireccionar
+  
+  useEffect(() => {
+    const fetchServicios = async () => {
+      try {
+        const token = localStorage.getItem('access_token'); // Obtener el token de autenticación
+        const response = await axios.get('http://127.0.0.1:8000/scheduling/appointment-reasons/', {
+          headers: {
+            'Authorization': `Bearer ${token}` // Incluir el token en la cabecera de autorización
+          }
+        });
+        setServicios(response.data); // Guardar los datos en el estado
+      } catch (error) {
+        console.error('Error al obtener los servicios:', error);
+      }
+    };
 
-  const especialidades = [
-    'Atención Psicológica',
-    'Capacitaciones o talleres para pesonal',
-    'Capacitaciones o talleres para padres de familia',    
-    'Coaching personal neurolinguistico',
-    'Coaching personal ejecutivo',
-    'Consultoria organizacional',
-    'Estimulación temprana',
-    'Evaluación Psicológica',
-    'Intervención de psicoterapia',
-    'Talleres psicoterapéuticos para niños',
-    'Talleres psicoterapéuticos para adolescentes',
-    'Talleres psicoterapéuticos para adultos',
-    'Terapia Ocupacional',
-  ];
+    fetchServicios();
+  }, []);
+
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
 
-  const filteredEspecialidades = especialidades.filter(especialidad =>
-    especialidad.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredServicios = servicios.filter(servicio =>
+    servicio.reason.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleEspecialidadClick = (especialidad) => {
-    // Redirigir a la vista ConfigurarCita con la especialidad seleccionada
-    navigate('/Dash/ConfigurarCita', { state: { especialidadSeleccionada: especialidad } });
+  const handleServicioClick = (servicio) => {
+    // Redirigir a la vista ConfigurarCita con el servicio seleccionado
+    navigate('/Dash/ConfigurarCita', { state: { servicioSeleccionado: servicio } });
   };
 
   return (
@@ -50,9 +55,9 @@ const AgendarPorServicio = () => {
         />
       </div>
       <div className="especialidades-list">
-        {filteredEspecialidades.map((especialidad, index) => (
-          <div key={index} className="especialidad-item">
-            <button className="especialidad-btn" onClick={() => handleEspecialidadClick(especialidad)}>{especialidad}</button>
+        {filteredServicios.map((servicio) => (
+          <div key={servicio.id} className="especialidad-item">
+            <button className="especialidad-btn" onClick={() => handleServicioClick(servicio)}>{servicio.reason}</button>
           </div>
         ))}
       </div>
