@@ -37,6 +37,9 @@ const Dashboard = () => {
     }
   };
 
+  // Función para verificar si la ruta actual es la activa (usando includes para manejar rutas anidadas)
+  const isActive = (path) => location.pathname.includes(path);
+
   return (
     <div className="dashboard-container">
       <div className={`sidebar ${sidebarCollapsed ? 'collapsed' : ''} ${sidebarOpen ? 'open' : ''}`}>
@@ -46,13 +49,27 @@ const Dashboard = () => {
         </div>
         <nav>
           <ul>
-            <li><Link to="Inicio"><img src={iconhome} alt="client" className="icon-nav" /> <span>Inicio</span></Link></li>
-            <li><Link to="Historia"><img src={iconhist} alt="client" className="icon-nav" /> <span>Historia Clínica</span></Link></li>
-            <li><Link to="Citas"><img src={iconcita} alt="client" className="icon-nav" /> <span>Mis citas</span></Link></li>
-            <li><Link to="Resultados"><img src={iconresul} alt="client" className="icon-nav" /> <span>Resultados clínicos</span></Link></li>
-            <li><Link to="SelecTest"><img src={icontests} alt="client" className="icon-nav" /> <span>Test</span></Link></li>
-            <li><Link to="Facturacion"><img src={iconfact} alt="client" className="icon-nav" /> <span>Facturación</span></Link></li>
-            <li><Link to="Contactos"><img src={iconcont} alt="client" className="icon-nav" /> <span>Contactos</span></Link></li>
+            <li className={isActive('/Inicio') ? 'active' : ''}>
+              <Link to="Inicio"><img src={iconhome} alt="client" className="icon-nav" /> <span>Inicio</span></Link>
+            </li>
+            <li className={isActive('/Historia') ? 'active' : ''}>
+              <Link to="Historia"><img src={iconhist} alt="client" className="icon-nav" /> <span>Historia Clínica</span></Link>
+            </li>
+            <li className={isActive('/Citas') ? 'active' : ''}>
+              <Link to="Citas"><img src={iconcita} alt="client" className="icon-nav" /> <span>Mis citas</span></Link>
+            </li>
+            <li className={isActive('/Resultados') ? 'active' : ''}>
+              <Link to="Resultados"><img src={iconresul} alt="client" className="icon-nav" /> <span>Resultados clínicos</span></Link>
+            </li>
+            <li className={isActive('/SelecTest') ? 'active' : ''}>
+              <Link to="SelecTest"><img src={icontests} alt="client" className="icon-nav" /> <span>Test</span></Link>
+            </li>
+            <li className={isActive('/Facturacion') ? 'active' : ''}>
+              <Link to="Facturacion"><img src={iconfact} alt="client" className="icon-nav" /> <span>Facturación</span></Link>
+            </li>
+            <li className={isActive('/Contactos') ? 'active' : ''}>
+              <Link to="Contactos"><img src={iconcont} alt="client" className="icon-nav" /> <span>Contactos</span></Link>
+            </li>
           </ul>
         </nav>
       </div>

@@ -1,0 +1,108 @@
+.registrar-paciente-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .paciente-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .step-indicator {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+  }
+  
+  .step-indicator span {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    margin-right: 10px;
+  }
+  
+  .step-indicator .active {
+    background-color: #2559A6;
+    color: white;
+  }
+  
+  .cancelar-link {
+    color: #2c2c2c;
+    text-decoration: none;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    display: block;
+    font-size: 1rem;
+    margin-bottom: 5px;
+  }
+  
+  .form-group input,
+  .form-group select {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+  }
+  
+  .error-message {
+    color: #D32F2F;
+    font-size: 0.875rem;
+  }
+  
+  .form-group.consentimiento {
+    display: flex;
+    align-items: center; /* Alinea verticalmente en el centro */
+    justify-content: flex-end; /* Alinea el contenido hacia la izquierda */
+    gap: 10px; /* Espacio entre el input y el label */
+    margin: 0; /* Elimina los márgenes */
+  }
+  
+  .form-group.consentimiento input {
+    margin: 0; /* Elimina márgenes innecesarios */
+  }
+  
+  .form-group.consentimiento label {
+    font-size: 0.875rem;
+    margin: 0; /* Elimina márgenes */
+  }
+  
+  
+  .btn-continuar,
+  .btn-agregar-paciente {
+    width: 100%;
+    padding: 10px;
+    background-color: #2559A6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  
+  .btn-continuar:disabled,
+  .btn-agregar-paciente:disabled {
+    background-color: #e0e0e0;
+    cursor: not-allowed;
+    color: black;
+  }
+  

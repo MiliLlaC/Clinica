@@ -20,10 +20,12 @@ import AgendarCita from './componentes/AgendarCita'; // Importa AgendarCita
 import AgendarPorMedico from './componentes/AgendarporMedico';
 import AgendarPorServicio from './componentes/AgendarporServicio'; // Importa AgendarPorEspecialidad
 import ConfigurarCita from './componentes/ConfigurarCita';
+import CitaConfigurarPsico from './componentes/CitaConfigurarPsico';
 import SeleccionarHorario from './componentes/SeleccionaHora';
 import SeleccionarSeguro from './componentes/SelecSeguro';
 import OlvidePass from './componentes/OlvidePass';
 import Resumen from './componentes/Resumen';
+import RegistrarPaciente from './componentes/RegistarPaciente';
 import './componentes/stile/global.css';
 import './componentes/stile/App.css';
 import './componentes/stile/agendarCita.css';
@@ -52,7 +54,9 @@ root.render(
           <Route path="AgendarCita" element={<AgendarCita />} /> {/* Nueva ruta para AgendarCita */}
           <Route path="AgendarporMedico" element={<AgendarPorMedico />} />
           <Route path="AgendarporServicio" element={<AgendarPorServicio />} />
+          <Route path="CitaConfigurarPsico" element={<CitaConfigurarPsico />} />
           <Route path="ConfigurarCita" element={<ConfigurarCita />} />
+          <Route path="RegistrarPaciente" element={<RegistrarPaciente />} />
           <Route path="SeleccionaHora" element={<SeleccionarHorario />} /> 
           <Route path="SelecSeguro" element={<SeleccionarSeguro />} /> 
           <Route path='Resumen' element={<Resumen />} /> 

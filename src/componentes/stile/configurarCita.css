@@ -92,6 +92,30 @@
   background-color: #00c4d8;
   color: white;
 }
+
+.horarios-disponibles-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* 5 columnas */
+  gap: 10px; /* Espacio entre los botones */
+  margin-top: 20px;
+}
+
+.hora-btn {
+  background-color: #fff;
+  border: 1px solid #00BFFF;
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 14px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.hora-btn.selected {
+  background-color: #00BFFF;
+  color: white;
+}
+
 .medicos-list{
   display: flex;
   flex-direction: column;
