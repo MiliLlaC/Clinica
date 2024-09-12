@@ -35,9 +35,9 @@ const Login = () => {
       });
 
       // Verificar si el login fue exitoso
-      if (response.data.success) {
+      if (response.status === 200) {
         // Si el login es exitoso, guardar los tokens en localStorage
-        const { id, name, access, refresh } = response.data.data;
+        const { id, name, access, refresh } = response.data;
         localStorage.setItem("access_token", access);
         localStorage.setItem("refresh_token", refresh);
         localStorage.setItem("user_name", name);

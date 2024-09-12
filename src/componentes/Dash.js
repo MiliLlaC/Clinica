@@ -40,7 +40,7 @@ const Dashboard = () => {
   };
 
   // Función para verificar si la ruta actual es la activa (usando includes para manejar rutas anidadas)
-  const isActive = (path) => location.pathname.includes(path);
+  const isActive = (path) => window.location.pathname.includes(path);
 
   return (
     <div className="dashboard-container">
