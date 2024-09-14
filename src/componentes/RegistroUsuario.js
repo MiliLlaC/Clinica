@@ -1,24 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import './stile/registro.css';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import "./stile/registro.css";
 
 const Register = () => {
   const [step, setStep] = useState(1);
-  const [documentNumber, setDocumentNumber] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [birthDate, setBirthDate] = useState('');
-  const [birthPlace, setBirthPlace] = useState(''); // Cambiado a seleccionar por ID
-  const [gender, setGender] = useState('');
-  const [workCenter, setWorkCenter] = useState('');
-  const [occupation, setOccupation] = useState('');
-  const [religion, setReligion] = useState('');
-  const [email, setEmail] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [documentNumber, setDocumentNumber] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [birthDate, setBirthDate] = useState("");
+  const [birthPlace, setBirthPlace] = useState(""); // Cambiado a seleccionar por ID
+  const [gender, setGender] = useState("");
+  const [workCenter, setWorkCenter] = useState("");
+  const [occupation, setOccupation] = useState("");
+  const [religion, setReligion] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [workCenters, setWorkCenters] = useState([]);
   const [locations, setLocations] = useState([]); // Almacena las locations
 
@@ -28,10 +27,10 @@ const Register = () => {
   useEffect(() => {
     const fetchWorkCenters = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/companys/');
+        const response = await axios.get("https://web-production-dcd72.up.railway.app/api/companys/");
         setWorkCenters(response.data);
       } catch (error) {
-        console.error('Error al obtener los centros de trabajo:', error);
+        console.error("Error al obtener los centros de trabajo:", error);
       }
     };
 
@@ -42,10 +41,12 @@ const Register = () => {
   useEffect(() => {
     const fetchLocations = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/locations/');
+        const response = await axios.get(
+          "https://web-production-dcd72.up.railway.app/api/locations/"
+        );
         setLocations(response.data);
       } catch (error) {
-        console.error('Error al obtener las locations:', error);
+        console.error("Error al obtener las locations:", error);
       }
     };
 
@@ -57,63 +58,73 @@ const Register = () => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      alert('Las contraseñas no coinciden');
+      alert("Las contraseñas no coinciden");
       return;
     }
 
     const clientData = {
-      username: username,
-      password: password,
       email: email,
-      patient: {
-        dni: documentNumber,
-        first_name: firstName,
-        last_name: lastName,
-        gender: gender,
-        birth_date: birthDate,
-        address: "789 Oak St", // Agregar un input
-        phone: phoneNumber,
-        company: workCenter,
-        location: birthPlace,
-        language: "Spanish", // Agregar un input
-        occupation: occupation,
-        religion: religion,
-        education_level: "Bachelor's", // Agregar un input
-        area: "Architecture", // Agregar un input
-        email: email,
-      },
+      password: password,
+      dni: documentNumber,
+      first_name: firstName,
+      last_name: lastName,
+      gender: gender,
+      birth_date: birthDate,
+      address: "789 Oak St", // Agregar un input (Es obligatorio)
+      phone: phoneNumber,
+      company: workCenter,
+      location: birthPlace,
+      language: "Spanish", // Agregar un input
+      occupation: occupation,
+      religion: religion,
+      education_level: "Bachelor's", // Agregar un input (Es opcional pasarlo)
+      area: "Architecture", // Agregar un input (Es opcional pasarlo)
     };
 
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/register/client', clientData, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      const response = await axios.post(
+        "https://web-production-dcd72.up.railway.app/api/register/client",
+        clientData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       if (response.status === 201) {
         console.log(response);
-        localStorage.setItem("access_token", response.data.data.access);
-        localStorage.setItem("refresh_token", response.data.data.refresh);
-        localStorage.setItem("user_name", response.data.data.user_name);
-        localStorage.setItem("user_id", response.data.data.user_id);
-        navigate('/Dash/Inicio', { state: { user: username } });
+        localStorage.setItem("access_token", response.data.access);
+        localStorage.setItem("refresh_token", response.data.refresh);
+        localStorage.setItem("user_name", response.data.user.name);
+        localStorage.setItem("user_id", response.data.user.id);
+        navigate("/Dash/Inicio", { state: { user: response.data.user.name } });
       }
     } catch (error) {
-      console.error('Error al registrar al cliente:', error);
-      alert('Hubo un error al registrar el cliente');
+      console.error("Error al registrar al cliente:", error);
+      alert("Hubo un error al registrar el cliente");
     }
   };
 
   return (
     <div className="register-container">
       <div className="register-left">
-        <h2>Agenda tus citas médicas virtuales y/o presenciales de la manera más simple y rápida</h2>
+        <h2>
+          Agenda tus citas médicas virtuales y/o presenciales de la manera más
+          simple y rápida
+        </h2>
       </div>
       {step === 1 ? (
         <div className="register-right">
-          <a href="/Login" className="back-link">Volver</a>
+          <a href="/Login" className="back-link">
+            Volver
+          </a>
           <h2>Ingresa tus datos</h2>
-          <form onSubmit={(e) => { e.preventDefault(); setStep(2); }}>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              setStep(2);
+            }}
+          >
             <label>
               Nº de DNI
               <input
@@ -155,31 +166,48 @@ const Register = () => {
             </label>
             <label>
               Lugar de nacimiento
-              <select value={birthPlace} onChange={(e) => setBirthPlace(e.target.value)} required>
+              <select
+                value={birthPlace}
+                onChange={(e) => setBirthPlace(e.target.value)}
+                required
+              >
                 <option value="">Selecciona tu lugar de nacimiento</option>
-                {locations.map(location => (
+                {locations.map((location) => (
                   <option key={location.id} value={location.id}>
                     {`${location.department}, ${location.province}, ${location.district}`}
                   </option>
                 ))}
               </select>
             </label>
-            <button type="submit" className="submit-button">Continuar</button>
+            <button type="submit" className="submit-button">
+              Continuar
+            </button>
           </form>
         </div>
       ) : step === 2 ? (
         <div className="verify-container">
-          <a href="/Login" className="back-link">Volver</a>
+          <a href="/Login" className="back-link">
+            Volver
+          </a>
           <div className="progress-indicator">
             <div className="step completed">1</div>
             <div className="step completed">2</div>
             <div className="step">3</div>
           </div>
           <h2>Ingresa tus datos</h2>
-          <form onSubmit={(e) => { e.preventDefault(); setStep(3); }}>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              setStep(3);
+            }}
+          >
             <label>
               Sexo
-              <select value={gender} onChange={(e) => setGender(e.target.value)} required>
+              <select
+                value={gender}
+                onChange={(e) => setGender(e.target.value)}
+                required
+              >
                 <option value="">Selecciona tu sexo</option>
                 <option value="F">Femenino</option>
                 <option value="M">Masculino</option>
@@ -188,9 +216,13 @@ const Register = () => {
             </label>
             <label>
               Centro de labores
-              <select value={workCenter} onChange={(e) => setWorkCenter(e.target.value)} required>
+              <select
+                value={workCenter}
+                onChange={(e) => setWorkCenter(e.target.value)}
+                required
+              >
                 <option value="">Selecciona tu centro de labores</option>
-                {workCenters.map(center => (
+                {workCenters.map((center) => (
                   <option key={center.id} value={center.id}>
                     {center.name}
                   </option>
@@ -217,12 +249,16 @@ const Register = () => {
                 placeholder="Ej: Católica"
               />
             </label>
-            <button type="submit" className="submit-button">Continuar</button>
+            <button type="submit" className="submit-button">
+              Continuar
+            </button>
           </form>
         </div>
       ) : (
         <div className="contact-container">
-          <a href="/Login" className="back-link">Volver</a>
+          <a href="/Login" className="back-link">
+            Volver
+          </a>
           <div className="progress-indicator">
             <div className="step completed">1</div>
             <div className="step completed">2</div>
@@ -251,16 +287,6 @@ const Register = () => {
               />
             </label>
             <label>
-              Nombre de usuario
-              <input
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
-                placeholder="Nombre de usuario"
-              />
-            </label>
-            <label>
               Contraseña
               <input
                 type="password"
@@ -280,7 +306,9 @@ const Register = () => {
                 placeholder="Confirma tu contraseña"
               />
             </label>
-            <button type="submit" className="submit-button">Registrar</button>
+            <button type="submit" className="submit-button">
+              Registrar
+            </button>
           </form>
         </div>
       )}

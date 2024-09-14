@@ -36,7 +36,7 @@ const ConfigurarCita = () => {
   useEffect(() => {
     if (medicoSeleccionado && fecha) {
       axios
-        .post("http://127.0.0.1:8000/scheduling/available-time-slots/", {
+        .post("https://web-production-dcd72.up.railway.app/scheduling/available-time-slots/", {
           employee: medicoSeleccionado,
           date: fecha,
         })
@@ -56,7 +56,7 @@ const ConfigurarCita = () => {
   useEffect(() => {
     if (sede) {
       axios
-        .get(`http://127.0.0.1:8000/scheduling/sedes/${sede.id}`)
+        .get(`https://web-production-dcd72.up.railway.app/scheduling/sedes/${sede.id}`)
         .then((response) => {
           const empleados = response.data.employees;
           const medicosDisponibles = empleados.map((emp) => ({

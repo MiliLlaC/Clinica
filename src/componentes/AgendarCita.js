@@ -17,7 +17,7 @@ const AgendarCita = ({ user }) => {
       const userId = localStorage.getItem('user_id'); // Obtener el ID del usuario del localStorage
 
       try {
-        const response = await axios.get(`http://127.0.0.1:8000/api/patients/${userId}/`, {
+        const response = await axios.get(`https://web-production-dcd72.up.railway.app/api/patients/${userId}/`, {
           headers: {
             'Authorization': `Bearer ${token}` // Incluir el token en la cabecera de autorización
           }

@@ -10,12 +10,12 @@ const Perfil = () => {
     const fetchProfileData = async () => {
       try {
         const token = localStorage.getItem('access_token'); // Obtener el token de autenticación
-        const response = await axios.get('http://127.0.0.1:8000/api/profile/', {
+        const response = await axios.get('https://web-production-dcd72.up.railway.app/api/profile/', {
           headers: {
             'Authorization': `Bearer ${token}` // Incluir el token en la cabecera de autorización
           }
         });
-        setProfileData(response.data.data); // Guardar los datos del perfil en el estado
+        setProfileData(response.data); // Guardar los datos del perfil en el estado
       } catch (error) {
         console.error('Error al obtener los datos del perfil:', error);
       }

@@ -28,8 +28,8 @@ const Login = () => {
 
     try {
       // Solicitud al backend para iniciar sesión
-      const response = await axios.post("http://127.0.0.1:8000/api/login/", {
-        username: email,
+      const response = await axios.post("https://web-production-dcd72.up.railway.app/api/login/", {
+        email: email,
         password: password,
         type: userType === "staff" ? "P" : "C",
       });
@@ -37,11 +37,11 @@ const Login = () => {
       // Verificar si el login fue exitoso
       if (response.status === 200) {
         // Si el login es exitoso, guardar los tokens en localStorage
-        const { id, name, access, refresh } = response.data;
+        const { user, access, refresh } = response.data;
         localStorage.setItem("access_token", access);
         localStorage.setItem("refresh_token", refresh);
-        localStorage.setItem("user_name", name);
-        localStorage.setItem("user_id", id);
+        localStorage.setItem("user_name", user.name);
+        localStorage.setItem("user_id", user.id);
 
         // Redirigir al usuario a la página correspondiente
         if (userType === "staff") {
@@ -101,9 +101,9 @@ const Login = () => {
         {error && <p style={{ color: "red" }}>{error}</p>}
         <form onSubmit={handleLogin}>
           <div className="form-group">
-            <label>Username</label>
+            <label>Email</label>
             <input
-              type="text"
+              type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required

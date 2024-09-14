@@ -13,7 +13,7 @@ const AgendarPorServicio = () => {
     const fetchServicios = async () => {
       try {
         const token = localStorage.getItem('access_token'); // Obtener el token de autenticación
-        const response = await axios.get('http://127.0.0.1:8000/scheduling/appointment-reasons/', {
+        const response = await axios.get('https://web-production-dcd72.up.railway.app/scheduling/appointment-reasons/', {
           headers: {
             'Authorization': `Bearer ${token}` // Incluir el token en la cabecera de autorización
           }
