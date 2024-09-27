@@ -36,7 +36,7 @@ const ConfigurarCita = () => {
     if (medicoSeleccionado && fecha) {
       axios
         .post(
-          "http://127.0.0.1:8000/scheduling/available-time-slots/",
+          "https://web-production-dcd72.up.railway.app/scheduling/available-time-slots/",
           {
             employee: medicoSeleccionado,
             date: fecha,
