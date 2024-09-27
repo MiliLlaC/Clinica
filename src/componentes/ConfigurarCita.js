@@ -28,18 +28,20 @@ const ConfigurarCita = () => {
   const [horarios, setHorarios] = useState([]);
   const [start_time, setStartTime] = useState("");
   const [end_time, setEndTime] = useState("");
-  
+
   const today = new Date().toISOString().split("T")[0];
-  
 
   // OBTENGO LOS HORARIOS DISPONIBLES (SELECCIONANDO MEDICO Y FECHA)
   useEffect(() => {
     if (medicoSeleccionado && fecha) {
       axios
-        .post("https://web-production-dcd72.up.railway.app/scheduling/available-time-slots/", {
-          employee: medicoSeleccionado,
-          date: fecha,
-        })
+        .post(
+          "https://web-production-dcd72.up.railway.app/scheduling/available-time-slots/",
+          {
+            employee: medicoSeleccionado,
+            date: fecha,
+          }
+        )
         .then((response) => {
           setHorarios(response.data);
         })
@@ -56,7 +58,14 @@ const ConfigurarCita = () => {
   useEffect(() => {
     if (sede) {
       axios
-        .get(`https://web-production-dcd72.up.railway.app/scheduling/sedes/${sede.id}`)
+        .get(
+          `https://web-production-dcd72.up.railway.app/scheduling/sedes/${sede.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('access_token')}`, // Agrega el JWT en el header
+            },
+          }
+        )
         .then((response) => {
           const empleados = response.data.employees;
           const medicosDisponibles = empleados.map((emp) => ({
@@ -118,7 +127,7 @@ const ConfigurarCita = () => {
 
   const handleHorarioChange = (start_time, end_time) => {
     setStartTime(start_time);
-    setEndTime(end_time)
+    setEndTime(end_time);
   };
 
   const handleContinuarClick = () => {
@@ -131,7 +140,7 @@ const ConfigurarCita = () => {
         fecha,
         start_time,
         end_time,
-        medico : {medicoSeleccionado, medicoName},
+        medico: { medicoSeleccionado, medicoName },
         tipoConsulta,
       },
     });
@@ -156,7 +165,12 @@ const ConfigurarCita = () => {
         <h2>Configura tu cita</h2>
 
         <label htmlFor="sede">Sede</label>
-        <select id="sede" value={sede.id} onChange={handleSedeChange} className="select-sede">
+        <select
+          id="sede"
+          value={sede.id}
+          onChange={handleSedeChange}
+          className="select-sede"
+        >
           <option value="">Selecciona una sede</option>
           {sedes.map((sede) => (
             <option key={sede.id} value={sede.id}>
@@ -233,11 +247,11 @@ const ConfigurarCita = () => {
                   <button
                     key={horario.id}
                     className={`hora-btn ${
-                      start_time === horario.start_time
-                        ? "selected"
-                        : ""
+                      start_time === horario.start_time ? "selected" : ""
                     }`}
-                    onClick={() => handleHorarioChange(horario.start_time, horario.end_time)}
+                    onClick={() =>
+                      handleHorarioChange(horario.start_time, horario.end_time)
+                    }
                   >
                     {`${horario.start_time} - ${horario.end_time}`}
                   </button>
@@ -261,8 +275,7 @@ const ConfigurarCita = () => {
       <div className="resumen-cita">
         <h3>Resumen de tu cita</h3>
         <p>
-          <strong>Servicio:</strong>{" "}
-          {servicioSeleccionado.reason || "---"}
+          <strong>Servicio:</strong> {servicioSeleccionado.reason || "---"}
         </p>
         <p>
           <strong>Psicólogo:</strong> {medicoName || "---"}
@@ -274,11 +287,16 @@ const ConfigurarCita = () => {
           <strong>Fecha:</strong> {fecha ? formatDate(fecha) : "---"}
         </p>
         <p>
-          <strong>Hora:</strong> {start_time && end_time ? `${start_time} - ${end_time}` : "---"}
+          <strong>Hora:</strong>{" "}
+          {start_time && end_time ? `${start_time} - ${end_time}` : "---"}
         </p>
         <p>
           <strong>Tipo de Consulta:</strong>{" "}
-          {tipoConsulta === 'P' ? 'Presencial' : tipoConsulta === 'V' ? 'Teleconsulta': '---'}
+          {tipoConsulta === "P"
+            ? "Presencial"
+            : tipoConsulta === "V"
+            ? "Teleconsulta"
+            : "---"}
         </p>
       </div>
     </div>
